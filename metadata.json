@@ -1,0 +1,6 @@
+{
+  "name": "আমল ট্র্যাকার - ইসলামিক অ্যাপ",
+  "description": "একটি পূর্ণাঙ্গ ইসলামিক আমল ট্র্যাকিং ও নামাজের সময়সূচী সমৃদ্ধ PWA মোবাইল অ্যাপ্লিকেশন",
+  "requestFramePermissions": ["geolocation", "camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

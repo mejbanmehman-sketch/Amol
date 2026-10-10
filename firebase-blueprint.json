@@ -1,0 +1,308 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Accounts",
+      "description": "Core authentication profiles and account status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "photo": { "type": "string" },
+        "bio": { "type": "string" },
+        "district": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "moderator", "admin", "super_admin"] },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "banned"] },
+        "isOnline": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "lastLoginAt": { "type": "string" },
+        "lastActiveAt": { "type": "string" },
+        "age": { "type": "number" },
+        "total_qaza": { "type": "number" },
+        "qaza_adaied": { "type": "number" }
+      },
+      "required": ["uid", "email", "name", "role", "accountStatus", "createdAt"]
+    },
+    "profiles": {
+      "title": "Extended User Profiles",
+      "description": "Public and friend visibility configurations, custom preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "phoneVisibility": { "type": "string", "enum": ["everyone", "friends", "nobody"] },
+        "isPublicProfile": { "type": "boolean" },
+        "donationTarget": { "type": "number" },
+        "preferredCity": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "friendRequests": {
+      "title": "Friend Requests",
+      "description": "Pending, accepted or rejected friendship requests between users",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined", "cancelled"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["senderId", "receiverId", "status", "createdAt"]
+    },
+    "friendships": {
+      "title": "Friendships",
+      "description": "Established mutual friendships between two users",
+      "type": "object",
+      "properties": {
+        "userA": { "type": "string" },
+        "userB": { "type": "string" },
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userA", "userB", "participants", "createdAt"]
+    },
+    "blocks": {
+      "title": "User Blocks",
+      "description": "Blocklist records preventing messaging, calls, and friend interactions",
+      "type": "object",
+      "properties": {
+        "blockerId": { "type": "string" },
+        "blockedUserId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["blockerId", "blockedUserId", "createdAt"]
+    },
+    "conversations": {
+      "title": "Chat Conversations",
+      "description": "Direct 1-on-1 and group thread metadata",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "participantDetails": { "type": "object" },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string" },
+        "lastSenderId": { "type": "string" },
+        "unreadCounts": { "type": "object" },
+        "type": { "type": "string", "enum": ["direct", "group"] }
+      },
+      "required": ["participants", "type", "lastMessageAt"]
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Real-time private chat messages within conversations",
+      "type": "object",
+      "properties": {
+        "messageId": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["text", "image", "audio", "amal_share", "video_note"] },
+        "isRead": { "type": "boolean" },
+        "senderName": { "type": "string" },
+        "senderAvatar": { "type": "string" },
+        "senderRole": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverAvatar": { "type": "string" },
+        "audioUrl": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "voiceDuration": { "type": "number" },
+        "reactions": { "type": "object" }
+      },
+      "required": ["messageId", "conversationId", "senderId", "receiverId", "text", "createdAt", "updatedAt", "messageType", "isRead"]
+    },
+    "notifications": {
+      "title": "User Notifications",
+      "description": "In-app alerts for friend requests, messages, reminders, and admin announcements",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "type": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "title", "body", "isRead", "createdAt"]
+    },
+    "presence": {
+      "title": "User Realtime Presence",
+      "description": "Realtime online/offline heartbeat and current active device info",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "isOnline": { "type": "boolean" },
+        "lastSeen": { "type": "string" },
+        "device": { "type": "string" }
+      },
+      "required": ["userId", "isOnline", "lastSeen"]
+    },
+    "calls": {
+      "title": "WebRTC Calls",
+      "description": "Audio and video call signaling sessions and peer exchange",
+      "type": "object",
+      "properties": {
+        "callId": { "type": "string" },
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "callerAvatar": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverAvatar": { "type": "string" },
+        "type": { "type": "string", "enum": ["audio", "video"] },
+        "status": { "type": "string", "enum": ["calling", "ringing", "accepted", "connecting", "connected", "reconnecting", "declined", "busy", "missed", "ended", "failed"] },
+        "offer": { "type": "object" },
+        "answer": { "type": "object" },
+        "duration": { "type": "number" },
+        "startedAt": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "acceptedAt": { "type": "string" },
+        "endedAt": { "type": "string" },
+        "endedReason": { "type": "string" }
+      },
+      "required": ["callerId", "receiverId", "type", "status", "createdAt"]
+    },
+    "callHistory": {
+      "title": "Call History Records",
+      "description": "Historical logs of completed, missed, or declined audio and video calls",
+      "type": "object",
+      "properties": {
+        "callId": { "type": "string" },
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "callerAvatar": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverAvatar": { "type": "string" },
+        "type": { "type": "string", "enum": ["audio", "video"] },
+        "status": { "type": "string", "enum": ["completed", "missed", "declined", "failed"] },
+        "startedAt": { "type": "string" },
+        "endedAt": { "type": "string" },
+        "duration": { "type": "number" },
+        "participants": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["callId", "callerId", "receiverId", "type", "status", "startedAt", "participants"]
+    },
+    "posts": {
+      "title": "Community Majlis Posts",
+      "description": "Islamic knowledge sharing, discussion threads in community majlis",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorRole": { "type": "string" },
+        "content": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "reactionCount": { "type": "number" },
+        "commentCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "isPinned": { "type": "boolean" }
+      },
+      "required": ["authorId", "authorName", "content", "createdAt"]
+    },
+    "comments": {
+      "title": "Post Comments",
+      "description": "Discussions under community majlis posts",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["postId", "authorId", "authorName", "content", "createdAt"]
+    },
+    "reactions": {
+      "title": "Reactions",
+      "description": "Likes and appreciation reactions on posts or messages",
+      "type": "object",
+      "properties": {
+        "targetType": { "type": "string", "enum": ["post", "message"] },
+        "targetId": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["subhanallah", "alhamdulillah", "mashaallah", "ameen"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["targetType", "targetId", "userId", "type", "createdAt"]
+    },
+    "amalRecords": {
+      "title": "Daily Amal Records",
+      "description": "Individual daily prayer and devotional checklist entries per user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string" },
+        "score": { "type": "number" },
+        "namaz_adaied": { "type": "number" },
+        "namaz_jamat": { "type": "number" },
+        "quran_surah": { "type": "string" },
+        "quran_pages": { "type": "number" },
+        "tasbih_count": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "date", "updatedAt"]
+    },
+    "qazaRecords": {
+      "title": "Qaza Salah Records",
+      "description": "Missed prayers tracking and repayment logs",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "totalQaza": { "type": "number" },
+        "qazaAdaied": { "type": "number" },
+        "history": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "totalQaza", "qazaAdaied", "updatedAt"]
+    },
+    "announcements": {
+      "title": "Admin Announcements & Contests",
+      "description": "Official broadcast notices and competition announcements from leadership",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "prizeDetails": { "type": "string" },
+        "deadline": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "content", "isActive", "createdAt"]
+    },
+    "adminActions": {
+      "title": "Admin Action Logs",
+      "description": "Audit trail of admin operations such as suspend, ban, delete, role update",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "adminName": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "action": { "type": "string", "enum": ["suspend", "unsuspend", "ban", "unban", "delete_user", "change_role", "broadcast"] },
+        "reason": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["adminId", "targetUserId", "action", "createdAt"]
+    },
+    "communityCounter": {
+      "title": "Community Statistics",
+      "description": "Aggregated counter stats (base participatory count and public metrics)",
+      "type": "object",
+      "properties": {
+        "baseCounter": { "type": "number" },
+        "lastUpdated": { "type": "string" }
+      },
+      "required": ["baseCounter", "lastUpdated"]
+    }
+  }
+}
